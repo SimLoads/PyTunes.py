@@ -54,6 +54,9 @@
 # - Added updating! Thanks to being on github, the program can now access the raw section of github and update itself. Find the updater in settings.
 # - That's literally all I've changed. also welcome to 1.0 everyone!
 #####
+# Changelog 27/01/18 - Ver 1.0.0.2 R1 HOTFIX
+# - Fixed a referance bug during first time setup, nothing major, just annoying for new users.
+#####
 #
 #
 ####################### Total modules: 14
@@ -78,7 +81,7 @@ import codecs         #
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 1.0.0.0 Release 1 'Tonic'")
+programversion = str("PyTunes 1.0.0.2 Release 1 'Tonic'")
 os.system("title " + programversion)
 def usercheck():
     print("[SC] User Check...")
@@ -348,6 +351,8 @@ def setupcont():
         f.write(userfvg)
         print("")
         print("Finishing Up...")
+        global currentlyplaying
+        currentlyplaying = ("Nothing")
         print("")
         print("Setup complete! Going to main menu...")
         print("")
