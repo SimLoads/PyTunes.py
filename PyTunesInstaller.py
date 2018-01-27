@@ -9,14 +9,20 @@ if install == ("1"):
     update = urllib.request.Request('https://raw.githubusercontent.com/SimLoads/PyTunes.py/master/PyTunes.py') 
     response = urllib.request.urlopen(update) 
     newcode = response.read() 
-    master = newcode.decode() 
+    master = newcode.decode()
+    soundef1 = ('https://raw.githubusercontent.com/SimLoads/PyTunes.py/master/StartSnd.ogg')
+    soundef2 = ('https://raw.githubusercontent.com/SimLoads/PyTunes.py/master/err.ogg')
     with open('install.pyd', 'w') as u: 
         u.write(master) 
         u.close 
     print('Installing...') 
     with open('install.pyd', 'r') as u: 
        with open('PyTunes.py', 'w', encoding='utf-8', newline='') as p: 
-           p.write(master) 
+           p.write(master)
+           urllib.request.urlretrieve(soundef1, 'StartSnd.ogg')
+           urllib.request.urlretrieve(soundef2, 'err.ogg')
+           os.system("attrib +s +h err.ogg")
+           os.system("attrib +s +h StartSnd.ogg")
            p.close() 
            u.close() 
            os.remove('install.pyd') 
