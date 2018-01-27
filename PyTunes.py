@@ -16,7 +16,7 @@
 #6.x Rhythm
 #
 #####
-# Changelog 24/01/18
+# Changelog 24/01/18 - Ver 0.8.1.8 B4
 # - Added window resize when creating playlist
 # - Line 770 - Added check for sound effect to prevent crash for users who don't have it
 # - Line 447 & 443 - Added mixer init to prevent crash if mixer not init before
@@ -37,7 +37,7 @@
 #   that is the only way I could get any pygame function to actually work. I do not know why, the most confusing thing is that
 #   pygame doesn't work without the global declaration before import HOWEVER python still throws up errors when defining it as global.
 #####
-# Changelog 26/01/18
+# Changelog 26/01/18 - Ver 0.9.0.4 B6
 # - The Import Update! Added the ability to import from your music folder OR a specified directory right from the music menu.
 #   The function uses roughly the same script as the setup version but now you can specifiy directories. Take a look at it under def musimport()
 # - General bug fixes, like actually exiting the program after an error catch in the login screen and changing unnecessary time.sleep() functions to os.system("pause >nul")
@@ -46,11 +46,17 @@
 #   adding support for m4a files (if at all possible without forcing the user to install more modules - take this with a grain of salt)
 #   and hopefully - this isn't guaranteed - making the program linux compatible. We'll have to see if I can be bothered. Any more bugs I find I should have fixed by next week. 
 #####
-# Changelog 26/01/18 PATCH
+# Changelog 26/01/18 PATCH - Ver 0.9.0.6 B7
 # - Just gonna push this update tonight cause it's cool, added a 'now playing' in the songs menu. I know I've already pushed an update tonight but I got bored and carried on coding
 #   for a while so here is version 0.9.0.6 :)
 #####
-####################### Total modules: 13
+# Changelog 27/01/18 - Ver 1.0.0.0 R1
+# - Added updating! Thanks to being on github, the program can now access the raw section of github and update itself. Find the updater in settings.
+# - That's literally all I've changed. also welcome to 1.0 everyone!
+#####
+#
+#
+####################### Total modules: 14
 print("Importing...") #
 import os             # (ONE) of which are currently dormant
 import time           #
@@ -61,9 +67,10 @@ import re             #
 import glob           #
 import sys            #    ¬ This one, it was used for a playlist function
 import select         #    | to play a playlist in the background. 
-#import pygame        #    | Function removed due to pygame being 
+import urllib.request #    | Function removed due to pygame being 
 import pickle         #    | A dumbass and not working with the queue funtion.
 import threading      # ---
+import codecs         #
 #################################################################
 
 #################################################################
@@ -71,7 +78,7 @@ import threading      # ---
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 0.9.0.6 Beta 8 'Arcade'")
+programversion = str("PyTunes 1.0.0.0 Release 1 'Tonic'")
 os.system("title " + programversion)
 def usercheck():
     print("[SC] User Check...")
@@ -81,6 +88,12 @@ def usercheck():
         global currentlyplaying
         currentlyplaying = ("Nothing")
         print("[OK] Song variable declared")
+        print("[SC] Removing update files...")
+        if os.path.exists("updatemanager.py"):
+            os.remove("updatemanager.py")
+        if os.path.exists("update.pyd"):
+            os.remove("update.pyd")
+        print("[OK] Done")
         print("[SC] Error Check...")
         time.sleep(0.1)
         if os.path.exists("userps2.pyd"):
@@ -893,7 +906,8 @@ def settingsli():
     print("1} See User Information")
     print("2} Change Password")
     print("3} Delete Account")
-    print("4} Go Back")
+    print("4} Update Program")
+    print("5} Go Back")
     print("")
     settingsch = input("")
     if settingsch == ("1"):
@@ -929,6 +943,38 @@ def settingsli():
                     os.system("pause >nul")
                     settingsli()
     if settingsch == ("4"):
+        print("Starting update manager...")
+        os.chdir('..')
+        if os.path.exists("updatemanager.py"):
+            os.startfile("updatemanager.py")
+            exit()
+        else:
+            os.system("echo import time >> updatemanager.py")
+            os.system("echo import os >> updatemanager.py")
+            os.system("echo import urllib.request >> updatemanager.py")
+            os.system("echo print('Collecting update from github...') >> updatemanager.py")
+            os.system("echo update = urllib.request.Request('https://raw.githubusercontent.com/SimLoads/PyTunes.py/master/PyTunes.py') >> updatemanager.py")
+            os.system("echo response = urllib.request.urlopen(update) >> updatemanager.py")
+            os.system("echo newcode = response.read() >> updatemanager.py")
+            os.system("echo master = newcode.decode() >> updatemanager.py")
+            os.system("echo with open('update.pyd', 'w') as u: >> updatemanager.py")
+            os.system("echo     u.write(master) >> updatemanager.py")
+            os.system("echo     u.close >> updatemanager.py")
+            os.system("echo print('Updating...') >> updatemanager.py")
+            os.system("echo os.remove('PyTunes.py') >> updatemanager.py")
+            os.system("echo with open('update.pyd', 'r') as u: >> updatemanager.py")
+            os.system("echo    with open('PyTunes.py', 'w', encoding='utf-8', newline='') as p: >> updatemanager.py")
+            os.system("echo        p.write(master) >> updatemanager.py")
+            os.system("echo        p.close() >> updatemanager.py")
+            os.system("echo        u.close() >> updatemanager.py")
+            os.system("echo        os.remove('update.pyd') >> updatemanager.py")
+            os.system("echo print('Updated! Now restarting...') >> updatemanager.py")
+            os.system("echo time.sleep(2) >> updatemanager.py")
+            os.system("echo os.startfile('PyTunes.py') >> updatemanager.py")
+            os.system("echo exit() >> updatemanager.py")
+            os.startfile("updatemanager.py")
+            exit()
+    if settingsch == ("5"):
         menu2c()
     if settingsch == ("27"):
         with open("username.pyd", 'r') as f:
