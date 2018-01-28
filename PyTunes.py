@@ -1,3 +1,4 @@
+### Pytunes Version 1.1.0.0 ###
 # Hi user! Welcome to PyTunes! This is a fully standalone media player
 # coded entirely in Python3. Only works in windows for now, I'm working on
 # a linux edition. Hope you enjoy using it!
@@ -63,6 +64,11 @@
 # - Planning an auto update system in the near future, that would be cools
 #   of course by near future I mean I'll probably have it done by tonight :)
 #####
+# Changelog 28/01/18 - Ver 1.1.0.0 R1 
+# - Added that auto updater I was talking about :)
+# - Other subtle changes like re-adding that urllib module for the auto updater and
+#   assigning the update manager a cmd title
+#####
 #
 #
 ####################### Total modules: 14
@@ -76,10 +82,10 @@ import re             #
 import glob           #
 import sys            #    ¬ This one, it was used for a playlist function
 import select         #    | to play a playlist in the background. 
-#import urllib.request#    | Function removed due to pygame being 
+import urllib.request #    | Function removed due to pygame being 
 import pickle         #    | A dumbass and not working with the queue funtion.
 import threading      # ---
-#import codecs        #
+import codecs         #
 #################################################################
 
 #################################################################
@@ -87,7 +93,7 @@ import threading      # ---
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 1.0.0.4 Release 1 'Tonic'")
+programversion = str("PyTunes 1.1.0.0 Release 1 'Tonic'")
 os.system("title " + programversion)
 def usercheck():
     print("[SC] User Check...")
@@ -178,29 +184,40 @@ def usercheck():
                 prelestr = str(le)
                 print("[OK] " + prelestr + " Songs [With Usable Formats] Found!")
                 print("[OK] Songs Processed")
-                print("[OK] Ready to boot!")
-                if os.path.exists("deverb.pyd"):
-                    print("Auto boot disabled...")
-                    print("Waiting for user choice... [y/n]")
-                    verbin = input("")
-                    if verbin == ("y"):
-                        if os.path.exists("skippass.pyd"):
-                            menu2c()
-                        else:
-                            boot()
-                    if verbin == ("n"):
-                        exit()
-                    else:
-                        print("Bad Input!")
-                        print("Booting...")
-                        time.sleep(1)
-                        menu2()
-                else:
-                    print("Auto boot enabled...")
-                    if os.path.exists("skippass.pyd"):
-                        menu2c()
-                    else:
-                        boot()
+                print("[SC] Checking for update...")
+                update = urllib.request.Request('https://raw.githubusercontent.com/SimLoads/PyTunes.py/master/PyTunes.py') 
+                response = urllib.request.urlopen(update) 
+                newcode = response.read() 
+                master = newcode.decode()
+                os.chdir('..')
+                os.system("type PyTunes.py >> update2.pyd")
+                os.system("attrib +s +h update2.pyd")
+                with open('update.pyd', 'w') as u: 
+                    u.write(master)
+                    os.system("attrib +s +h update.pyd")
+                    u.close
+                with open('update.pyd', 'r') as u:
+                    with open('update2.pyd', 'r') as r:
+                        for lineu in u:
+                            for liner in r:
+                                print("[SC] Current Verison - ", liner)
+                                print("[SC] Server Verison - ", lineu)
+                                if (lineu) == (liner):
+                                    print("[OK] No update needed!")
+                                    u.close()
+                                    r.close()
+                                    os.remove("update.pyd")
+                                    os.remove("update2.pyd")
+                                    redboot()
+                                else:
+                                    print("[OK] Update Required!")
+                                    print("")
+                                    u.close()
+                                    r.close()
+                                    os.remove("update.pyd")
+                                    os.remove("update2.pyd")
+                                    os.system("pause")
+                                    updatecheck()
     if not os.path.exists("userfvg.pyd"):
         os.system("attrib +s +h err.ogg")
         os.system("attrib +s +h iserrorskipon.pyd")
@@ -232,6 +249,30 @@ def usercheck():
             print("Auto boot enabled...")
             time.sleep(0.1)
             menu1()
+def redboot():
+    print("[OK] Ready to boot!")
+    if os.path.exists("deverb.pyd"):
+        print("Auto boot disabled...")
+        print("Waiting for user choice... [y/n]")
+        verbin = input("")
+        if verbin == ("y"):
+            if os.path.exists("skippass.pyd"):
+                menu2c()
+            else:
+                boot()
+        if verbin == ("n"):
+            exit()
+        else:
+            print("Bad Input!")
+            print("Booting...")
+            time.sleep(1)
+            menu2()
+    else:
+        print("Auto boot enabled...")
+        if os.path.exists("skippass.pyd"):
+            menu2c()
+        else:
+            boot()
 def boot():
     time.sleep(0.1)
     time.sleep(0.1)
@@ -960,37 +1001,8 @@ def settingsli():
                     os.system("pause >nul")
                     settingsli()
     if settingsch == ("4"):
-        print("Starting update manager...")
+        updatecheck()
         os.chdir('..')
-        if os.path.exists("updatemanager.py"):
-            os.startfile("updatemanager.py")
-            exit()
-        else:
-            os.system("echo import time >> updatemanager.py")
-            os.system("echo import os >> updatemanager.py")
-            os.system("echo import urllib.request >> updatemanager.py")
-            os.system("echo print('Collecting update from github...') >> updatemanager.py")
-            os.system("echo update = urllib.request.Request('https://raw.githubusercontent.com/SimLoads/PyTunes.py/master/PyTunes.py') >> updatemanager.py")
-            os.system("echo response = urllib.request.urlopen(update) >> updatemanager.py")
-            os.system("echo newcode = response.read() >> updatemanager.py")
-            os.system("echo master = newcode.decode() >> updatemanager.py")
-            os.system("echo with open('update.pyd', 'w') as u: >> updatemanager.py")
-            os.system("echo     u.write(master) >> updatemanager.py")
-            os.system("echo     u.close >> updatemanager.py")
-            os.system("echo print('Updating...') >> updatemanager.py")
-            os.system("echo os.remove('PyTunes.py') >> updatemanager.py")
-            os.system("echo with open('update.pyd', 'r') as u: >> updatemanager.py")
-            os.system("echo    with open('PyTunes.py', 'w', encoding='utf-8', newline='') as p: >> updatemanager.py")
-            os.system("echo        p.write(master) >> updatemanager.py")
-            os.system("echo        p.close() >> updatemanager.py")
-            os.system("echo        u.close() >> updatemanager.py")
-            os.system("echo        os.remove('update.pyd') >> updatemanager.py")
-            os.system("echo print('Updated! Now restarting...') >> updatemanager.py")
-            os.system("echo time.sleep(2) >> updatemanager.py")
-            os.system("echo os.startfile('PyTunes.py') >> updatemanager.py")
-            os.system("echo exit() >> updatemanager.py")
-            os.startfile("updatemanager.py")
-            exit()
     if settingsch == ("5"):
         menu2c()
     if settingsch == ("27"):
@@ -1009,6 +1021,39 @@ def settingsli():
     else:
         print("Bad Input! Please enter either 1, 2, 3 or 4 to naviagte.")
         settingsli()
+def updatecheck():
+    print("Starting update manager...")
+    if os.path.exists("updatemanager.py"):
+        os.startfile("updatemanager.py")
+        exit()
+    else:
+        os.system("echo import time >> updatemanager.py")
+        os.system("echo import os >> updatemanager.py")
+        os.system("echo import urllib.request >> updatemanager.py")
+        os.system("echo title PyTunes Update Manager >> updatemanager.py")
+        os.system("echo print('Collecting update from github...') >> updatemanager.py")
+        os.system("echo update = urllib.request.Request('https://raw.githubusercontent.com/SimLoads/PyTunes.py/master/PyTunes.py') >> updatemanager.py")
+        os.system("echo response = urllib.request.urlopen(update) >> updatemanager.py")
+        os.system("echo newcode = response.read() >> updatemanager.py")
+        os.system("echo master = newcode.decode() >> updatemanager.py")
+        os.system("echo with open('update.pyd', 'w') as u: >> updatemanager.py")
+        os.system("echo     u.write(master) >> updatemanager.py")
+        os.system("echo     u.close >> updatemanager.py")
+        os.system("echo print('Updating...') >> updatemanager.py")
+        os.system("echo time.sleep(2) >> updatemanager.py")
+        os.system("echo os.remove('PyTunes.py') >> updatemanager.py")
+        os.system("echo with open('update.pyd', 'r') as u: >> updatemanager.py")
+        os.system("echo    with open('PyTunes.py', 'w', encoding='utf-8', newline='') as p: >> updatemanager.py")
+        os.system("echo        p.write(master) >> updatemanager.py")
+        os.system("echo        p.close() >> updatemanager.py")
+        os.system("echo        u.close() >> updatemanager.py")
+        os.system("echo        os.remove('update.pyd') >> updatemanager.py")
+        os.system("echo print('Updated! Now restarting...') >> updatemanager.py")
+        os.system("echo time.sleep(2) >> updatemanager.py")
+        os.system("echo os.startfile('PyTunes.py') >> updatemanager.py")
+        os.system("echo exit() >> updatemanager.py")
+        os.startfile("updatemanager.py")
+        exit()
 def devoptions():
     isdevon = str("a")
     isdevoff = str("b")
