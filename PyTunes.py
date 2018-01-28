@@ -1,4 +1,4 @@
-### Pytunes Version 1.1.0.0 ###
+### Pytunes Version 1.1.0.2 ###
 # Hi user! Welcome to PyTunes! This is a fully standalone media player
 # coded entirely in Python3. Only works in windows for now, I'm working on
 # a linux edition. Hope you enjoy using it!
@@ -69,6 +69,10 @@
 # - Other subtle changes like re-adding that urllib module for the auto updater and
 #   assigning the update manager a cmd title
 #####
+# Changelog 28/01/18 - Ver 1.1.0.2 R1 HOTFIX
+# - Update manager had a huge bug, should be fixed now
+# - Error code LxFExF fixed
+#####
 #
 #
 ####################### Total modules: 14
@@ -93,11 +97,12 @@ import codecs         #
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 1.1.0.0 Release 1 'Tonic'")
+programversion = str("PyTunes 1.1.0.2 Release 1 'Tonic'")
 os.system("title " + programversion)
 def usercheck():
     print("[SC] User Check...")
     time.sleep(0.1)
+    curdrs = os.getcwd()
     if os.path.exists("userfvg.pyd"):
         print("[OK] userfvg.pyd exists")
         global currentlyplaying
@@ -208,6 +213,7 @@ def usercheck():
                                     r.close()
                                     os.remove("update.pyd")
                                     os.remove("update2.pyd")
+                                    os.chdir(curdrs)
                                     redboot()
                                 else:
                                     print("[OK] Update Required!")
@@ -1001,8 +1007,8 @@ def settingsli():
                     os.system("pause >nul")
                     settingsli()
     if settingsch == ("4"):
-        updatecheck()
         os.chdir('..')
+        updatecheck()
     if settingsch == ("5"):
         menu2c()
     if settingsch == ("27"):
@@ -1030,7 +1036,7 @@ def updatecheck():
         os.system("echo import time >> updatemanager.py")
         os.system("echo import os >> updatemanager.py")
         os.system("echo import urllib.request >> updatemanager.py")
-        os.system("echo title PyTunes Update Manager >> updatemanager.py")
+        os.system("echo os.system('title PyTunes Update Manager') >> updatemanager.py")
         os.system("echo print('Collecting update from github...') >> updatemanager.py")
         os.system("echo update = urllib.request.Request('https://raw.githubusercontent.com/SimLoads/PyTunes.py/master/PyTunes.py') >> updatemanager.py")
         os.system("echo response = urllib.request.urlopen(update) >> updatemanager.py")
