@@ -28,7 +28,7 @@
 #   the problem.
 # - Added error catch if someone somehow boots into the login screen w/o login details
 # - Removed progressbar altogether, just another thing users had to install that served no purpose
-# - Removed 'import python' from the initial boot sequence because that was so dumb to have
+# - Removed 'import pygame' from the initial boot sequence because that was so dumb to have
 #   an error catcher after trying to import it lol
 # - Set all file extensions to .pyd instead of .ocr (Accounts will have to be remade sorry y'all)
 # - Started doing a changelog cause I'm professional af
@@ -57,6 +57,12 @@
 # Changelog 27/01/18 - Ver 1.0.0.2 R1 HOTFIX
 # - Fixed a referance bug during first time setup, nothing major, just annoying for new users.
 #####
+# Changelog 28/01/18 - Ver 1.0.0.4 R1
+# - Added a new dev option, not that anyone would use it unless they're a dev
+# - Removed import of some useless modules to (marginally) improve loading times
+# - Planning an auto update system in the near future, that would be cools
+#   of course by near future I mean I'll probably have it done by tonight :)
+#####
 #
 #
 ####################### Total modules: 14
@@ -70,10 +76,10 @@ import re             #
 import glob           #
 import sys            #    ¬ This one, it was used for a playlist function
 import select         #    | to play a playlist in the background. 
-import urllib.request #    | Function removed due to pygame being 
+#import urllib.request#    | Function removed due to pygame being 
 import pickle         #    | A dumbass and not working with the queue funtion.
 import threading      # ---
-import codecs         #
+#import codecs        #
 #################################################################
 
 #################################################################
@@ -81,7 +87,7 @@ import codecs         #
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 1.0.0.2 Release 1 'Tonic'")
+programversion = str("PyTunes 1.0.0.4 Release 1 'Tonic'")
 os.system("title " + programversion)
 def usercheck():
     print("[SC] User Check...")
@@ -178,7 +184,10 @@ def usercheck():
                     print("Waiting for user choice... [y/n]")
                     verbin = input("")
                     if verbin == ("y"):
-                        boot()
+                        if os.path.exists("skippass.pyd"):
+                            menu2c()
+                        else:
+                            boot()
                     if verbin == ("n"):
                         exit()
                     else:
@@ -188,7 +197,10 @@ def usercheck():
                         menu2()
                 else:
                     print("Auto boot enabled...")
-                    boot()
+                    if os.path.exists("skippass.pyd"):
+                        menu2c()
+                    else:
+                        boot()
     if not os.path.exists("userfvg.pyd"):
         os.system("attrib +s +h err.ogg")
         os.system("attrib +s +h iserrorskipon.pyd")
@@ -1002,6 +1014,8 @@ def devoptions():
     isdevoff = str("b")
     iserrorskipon = str("c")
     iserrorskipoff = str("d")
+    isskippasson = str("e")
+    isskippassoff = str("f")
     if os.path.exists("deverb.pyd"):
         isdevon = ("Enable")
         isdevoff = ("Disabled")
@@ -1014,6 +1028,12 @@ def devoptions():
     else:
         iserrorskipon = ("Enable")
         iserrorskipoff = ("Disabled")
+    if os.path.exists("skippass.pyd"):
+        isskippasson = ("Disable")
+        isskippassoff = ("Enabled")
+    else:
+        isskippasson = ("Enable")
+        isskippassoff = ("Disabled")
     os.system("cls")
     print("## DEVELOPER OPTION ##")
     print(programversion)
@@ -1022,6 +1042,7 @@ def devoptions():
     print("2} " + iserrorskipon + " Skip Boot Error Check [Currently " + iserrorskipoff + "]")
     print("3} Simulate Errors")
     print("4} Restart")
+    print("5} " + isskippasson + " Skip Password Check [Currently " + isskippassoff + "]")
     print("9} Return")
     devop = input("")
     if devop == ("1"):
@@ -1041,6 +1062,15 @@ def devoptions():
         else:
             os.system("echo errorskip >> iserrorskipon.pyd")
             os.system("attrib +s +h iserrorskipon.pyd")
+            devoptions()
+    if devop == ("5"):
+        if os.path.exists("skippass.pyd"):
+            os.system("attrib -s -h skippass.pyd")
+            os.remove("skippass.pyd")
+            devoptions()
+        else:
+            os.system("echo skippass >> skippass.pyd")
+            os.system("attrib +s +h skippass.pyd")
             devoptions()
     if devop == ("3"):
         errorsim()
