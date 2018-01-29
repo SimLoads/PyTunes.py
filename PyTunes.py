@@ -1,4 +1,4 @@
-### Pytunes Version 1.1.0.4 ###
+### Pytunes Version 1.1.0.6 ###
 # Hi user! Welcome to PyTunes! This is a fully standalone media player
 # coded entirely in Python3. Only works in windows for now, I'm working on
 # a linux edition. Hope you enjoy using it!
@@ -97,6 +97,9 @@
 # - Bug fixes and stuff, nothing major
 # - No real plans as to where to take this next? Will come up with something soon
 #####
+# Changelog 29/01/18 - Ver 1.1.0.6 R1 HOTFIX
+# - Whoops accidentally broke the program, should be fixed now :)
+#####
 #
 #
 ####################### Total modules: 14
@@ -121,7 +124,7 @@ import codecs         #
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 1.1.0.2 Release 1 'Tonic'")
+programversion = str("PyTunes 1.1.0.6 Release 1 'Tonic'")
 os.system("title " + programversion)
 def usercheck():
     print("[SC] User Check...")
@@ -1338,7 +1341,7 @@ def preboot():
         print("Error")
         os.system("pause")
         exit()
-    if os.path.exists("Songss"):
+    if os.path.exists("Songs"):
         global pygame
         import pygame
         pygame.mixer.init()
@@ -1390,7 +1393,7 @@ def preboot():
             print("[OK] Error skip disabled")
             usercheck()
     else:
-        if os.path.exists ("C:\Python34\Lib\site-packagess\pygame"):
+        if os.path.exists ("C:\Python34\Lib\site-packages\pygame"):
             global pygame
             import pygame
             isquick = os.getcwd()
