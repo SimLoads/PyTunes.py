@@ -1,4 +1,4 @@
-##pytunes installer 0.4##
+##pytunes installer 0.6##
 import time 
 import os 
 import urllib.request
