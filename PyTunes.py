@@ -1,4 +1,4 @@
-### Pytunes Version 1.1.0.2 ###
+### Pytunes Version 1.1.0.4 ###
 # Hi user! Welcome to PyTunes! This is a fully standalone media player
 # coded entirely in Python3. Only works in windows for now, I'm working on
 # a linux edition. Hope you enjoy using it!
@@ -92,6 +92,10 @@
 # Changelog 28/01/18 - Ver 1.1.0.2 R1 HOTFIX
 # - Update manager had a huge bug, should be fixed now
 # - Error code LxFExF fixed
+#####
+# Changelog 29/01/18 - Ver 1.1.0.4 R1
+# - Bug fixes and stuff, nothing major
+# - No real plans as to where to take this next? Will come up with something soon
 #####
 #
 #
@@ -395,7 +399,8 @@ def setup():
                 trnu = number + 1
                 trnus = str(trnu)
                 letterm = letter.replace(".mp3", "")
-                print(trnus + ":", letterm)
+                lettermm = letterm.replace(".wav", "")
+                print(trnus + ":", lettermm)
             print("")
             print("Press any key to copy (Existing songs will be skipped) ")
             os.system("pause >nul")
@@ -1043,6 +1048,7 @@ def settingsli():
                 else:
                     f.close()
                     print("Bad Input! Please enter either 1, 2, 3 or 4 to naviagte.")
+                    os.system("pause >nul")
                     settingsli()
     else:
         print("Bad Input! Please enter either 1, 2, 3 or 4 to naviagte.")
@@ -1285,7 +1291,6 @@ def pwrewr():
                 settingsli()
 #######################  S E T T I N G S  #######################
 
-
 ####################################################################
                 
 #######################  P Y G A M E  F A I L  ######################
@@ -1299,29 +1304,32 @@ def pyfail():
         pyfail()
     elif devinpy == ("end"):
         exit()
-        pyfail()
     elif devinpy == ("cmd"):
         pyfailcm()
     elif devinpy == ("rundev"):
         print("Emulating dev options...")
         time.sleep(1)
         devoptions()
-    elif devinpy == ("startx"):
-        print("Missing operand, use either -s or -l for setup / login")
-        pyfail()
-    elif devinpy == ("startx -s"):
-        menu1()
-    elif devinpy == ("startx -l"):
-        menu2()
+    elif devinpy == ("start"):
+        print("Launching...")
+        time.sleep(1)
+        usercheck()
     else:
-        print("'" + devinpy + "' is not recognized as a PyTunes commnad, use 'cmd' to enter normal terminal")
-        pyfail()
+        try:
+            print("Navigating...")
+            (devinpy)()
+        except:
+            print("'" + devinpy + "' is not recognized as a PyTunes commnad, use 'cmd' to enter normal terminal")
+            pyfail()
 def pyfailcm():
     pyfaildir = os.getcwd()
     pyfailcm = input(pyfaildir + ">")
     print("")
     os.system(pyfailcm)
     pyfailcm()
+#######################  P Y G A M E  F A I L  ######################
+
+######################################################################
     
 #######################  P R E  B O O T  P R E P #######################
 def preboot():
@@ -1330,7 +1338,7 @@ def preboot():
         print("Error")
         os.system("pause")
         exit()
-    if os.path.exists("Songs"):
+    if os.path.exists("Songss"):
         global pygame
         import pygame
         pygame.mixer.init()
@@ -1382,7 +1390,7 @@ def preboot():
             print("[OK] Error skip disabled")
             usercheck()
     else:
-        if os.path.exists ("C:\Python34\Lib\site-packages\pygame"):
+        if os.path.exists ("C:\Python34\Lib\site-packagess\pygame"):
             global pygame
             import pygame
             isquick = os.getcwd()
@@ -1477,5 +1485,7 @@ def preboot():
                 time.sleep(2)
                 exit()
 #######################  P R E  B O O T  P R E P #######################
+
+########################################################################
 preboot()
-os.system("pause>nul")
+os.system("pause >nul") # :)
