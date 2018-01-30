@@ -1,4 +1,4 @@
-### Pytunes Version 1.1.0.6 ###
+### Pytunes Version 1.1.0.8 ###
 # Hi user! Welcome to PyTunes! This is a fully standalone media player
 # coded entirely in Python3. Only works in windows for now, I'm working on
 # a linux edition. Hope you enjoy using it!
@@ -100,9 +100,13 @@
 # Changelog 29/01/18 - Ver 1.1.0.6 R1 HOTFIX
 # - Whoops accidentally broke the program, should be fixed now :)
 #####
+# Changelog 30/01/18 - Ver 1.1.0.8 R1
+# - Added a record of every song played in the session, in the songs menu
+# - Bigly things planned :)
+#####
 #
 #
-####################### Total modules: 14
+####################### Total modules: 13
 print("Importing...") #
 import os             # (ONE) of which are currently dormant
 import time           #
@@ -124,7 +128,9 @@ import codecs         #
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 1.1.0.6 Release 1 'Tonic'")
+programversion = str("PyTunes 1.1.0.8 Release 1 'Tonic'")
+global todaysongs
+todaysongs = []
 os.system("title " + programversion)
 def usercheck():
     print("[SC] User Check...")
@@ -192,8 +198,12 @@ def usercheck():
                 if os.path.exists("userdob.pyd"):
                     os.remove("userdob.pyd")
                 print(programversion)
-                print("Fatal Error! Please restart program.")
+                print("0_0")
+                print("")
+                print("PyTunes ran into a problem and had to restart.")
                 print("If you contact the developer, please quote error code S3DAxE")
+                print("Your password has been changed to the one you entered.")
+                print("Please press any key to restart.")
                 os.system("pause >nul")
                 exit()
             else:
@@ -586,7 +596,8 @@ def songsli():
     print("3} Choose Song From Library")
     print("4} Change Volume")
     print("5} Import Songs")
-    print("6} Go Back")
+    print("6} Songs played today")
+    print("7} Go Back")
     print("Press any key to play a random song.")
     print("")
     songschs = input("")
@@ -635,6 +646,8 @@ def songsli():
             choicename = choices.replace(".mp3", "")
             print("")
             print("Now Playing " + choicename + "...")
+            global todaysongs
+            todaysongs.extend([choicename])
             global currentlyplaying
             currentlyplaying = (choicename)
             pygame.mixer.pre_init()
@@ -654,6 +667,20 @@ def songsli():
     if songschs == ("5"):
         musimport()
     if songschs == ("6"):
+        maxnum = len(todaysongs)
+        maxnumext = maxnum + 5
+        maxnumstr = str(maxnumext)
+        os.system("@mode con cols=130 lines=" + maxnumstr)
+        print("")
+        for number, letter in enumerate(todaysongs):
+            trnu = number + 1
+            trnus = str(trnu)
+            letterm = letter.replace(".mp3", "")
+            print(trnus + ":", letterm)
+        os.system("pause")
+        os.system("@mode con cols=100 lines=34")
+        songsli()
+    if songschs == ("7"):
         menu2c()
     else:
         songselector()
@@ -770,6 +797,8 @@ def songselector():
         randname = rands.replace(".mp3", "")
         print("")
         print("Now Playing " + randname + "...")
+        global todaysongs
+        todaysongs.extend([randname])
         global currentlyplaying
         currentlyplaying = (randname)
         pygame.mixer.pre_init()
