@@ -1,8 +1,8 @@
-### Pytunes TE ###
+### PyTunesTE TE 0.1 ###
 ###############################
     #EXPERIMENTAL VERSION#
 ###############################
-# Hi user! Welcome to PyTunes! This is a fully standalone media player
+# Hi user! Welcome to PyTunesTE! This is a fully standalone media player
 # coded entirely in Python3. Only works in windows for now, I'm working on
 # a linux edition. Hope you enjoy using it!
 # MIT License
@@ -132,7 +132,7 @@ import playsound      #
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes TE")
+programversion = str("PyTunesTE TE")
 global todaysongs
 todaysongs = []
 os.system("title " + programversion)
@@ -147,8 +147,8 @@ def usercheck():
         currentlyplaying = ("Nothing")
         print("[OK] Song variable declared")
         print("[SC] Removing update files...")
-        if os.path.exists("updatemanager.py"):
-            os.remove("updatemanager.py")
+        if os.path.exists("updatemanagerTE.py"):
+            os.remove("updatemanagerTE.py")
         if os.path.exists("update.pyd"):
             os.remove("update.pyd")
         print("[OK] Done")
@@ -174,13 +174,13 @@ def usercheck():
                         print(programversion)
                         print("0_0")
                         print("")
-                        print("PyTunes ran into a problem and had to restart.")
+                        print("PyTunesTE ran into a problem and had to restart.")
                         print("If you contact the developer, please quote error code S2PDxE")
                         print("Your password has been changed to the one you entered.")
                         print("Please press any key to restart.")
                         os.system("pause >nul")
                         os.chdir('..')
-                        os.startfile("PyTunes.py")
+                        os.startfile("PyTunesTE.py")
                         exit()
         else:
             print("[OK] userps2.pyd does not exist")
@@ -205,7 +205,7 @@ def usercheck():
                 print(programversion)
                 print("0_0")
                 print("")
-                print("PyTunes ran into a problem and had to restart.")
+                print("PyTunesTE ran into a problem and had to restart.")
                 print("If you contact the developer, please quote error code S3DAxE")
                 print("Your password has been changed to the one you entered.")
                 print("Please press any key to restart.")
@@ -301,7 +301,7 @@ def menu1():
     os.system("cls")
     global trueusernm
     trueusernm = getpass.getuser()
-    username = input("Welcome to PyTunes, " + trueusernm + "! We see this is your first time, so please enter your name: ")
+    username = input("Welcome to PyTunesTE, " + trueusernm + "! We see this is your first time, so please enter your name: ")
     print("")
     for i in range(5):
         userps = input("Enter a password for your account: ")
@@ -336,7 +336,7 @@ def menu1():
             else:
                 print("Passwords do not match!")
 def setup():
-    dircheck = input("Would you like PyTunes to check your songs library for music? [y/n] ")
+    dircheck = input("Would you like PyTunesTE to check your songs library for music? [y/n] ")
     if dircheck == ("y"):
         global curdr
         curdr = os.getcwd()
@@ -424,7 +424,7 @@ def menu2():
     if os.path.exists("username.pyd"):
         with open("username.pyd", 'r') as f:
             for lineus in f:
-                pswrd = getpass.getpass("Welcome back to PyTunes, " + lineus + "! Enter your password to continue... ")
+                pswrd = getpass.getpass("Welcome back to PyTunesTE, " + lineus + "! Enter your password to continue... ")
         for loginloop in range(3):
             with open("userps.pyd", 'r') as f:
                 for lineps in f:
@@ -606,7 +606,7 @@ def musimport():
     print("")
     newdir = input("Would you like to import from a custom directory? ('n' will set the directory as your music folder) [y/n]: ")
     if newdir == ("y"):
-        srcsong = input("Paste the directory you want PyTunes to copy from: ")
+        srcsong = input("Paste the directory you want PyTunesTE to copy from: ")
         isdir = os.path.isdir(srcsong)
         isdirstr = str(isdir)
         if isdirstr == ("True"):
@@ -945,36 +945,36 @@ def settingsli():
         settingsli()
 def updatecheck():
     print("Starting update manager...")
-    if os.path.exists("updatemanager.py"):
-        os.startfile("updatemanager.py")
+    if os.path.exists("updatemanagerTE.py"):
+        os.startfile("updatemanagerTE.py")
         exit()
     else:
-        os.system("echo import time >> updatemanager.py")
-        os.system("echo import os >> updatemanager.py")
-        os.system("echo import urllib.request >> updatemanager.py")
-        os.system("echo os.system('title PyTunes Update Manager') >> updatemanager.py")
-        os.system("echo print('Collecting update from github...') >> updatemanager.py")
-        os.system("echo update = urllib.request.Request('https://raw.githubusercontent.com/SimLoads/PyTunes.py/master/PyTunes.py') >> updatemanager.py")
-        os.system("echo response = urllib.request.urlopen(update) >> updatemanager.py")
-        os.system("echo newcode = response.read() >> updatemanager.py")
-        os.system("echo master = newcode.decode() >> updatemanager.py")
-        os.system("echo with open('update.pyd', 'w') as u: >> updatemanager.py")
-        os.system("echo     u.write(master) >> updatemanager.py")
-        os.system("echo     u.close >> updatemanager.py")
-        os.system("echo print('Updating...') >> updatemanager.py")
-        os.system("echo time.sleep(2) >> updatemanager.py")
-        os.system("echo os.remove('PyTunes.py') >> updatemanager.py")
-        os.system("echo with open('update.pyd', 'r') as u: >> updatemanager.py")
-        os.system("echo    with open('PyTunes.py', 'w', encoding='utf-8', newline='') as p: >> updatemanager.py")
-        os.system("echo        p.write(master) >> updatemanager.py")
-        os.system("echo        p.close() >> updatemanager.py")
-        os.system("echo        u.close() >> updatemanager.py")
-        os.system("echo        os.remove('update.pyd') >> updatemanager.py")
-        os.system("echo print('Updated! Now restarting...') >> updatemanager.py")
-        os.system("echo time.sleep(2) >> updatemanager.py")
-        os.system("echo os.startfile('PyTunes.py') >> updatemanager.py")
-        os.system("echo exit() >> updatemanager.py")
-        os.startfile("updatemanager.py")
+        os.system("echo import time >> updatemanagerTE.py")
+        os.system("echo import os >> updatemanagerTE.py")
+        os.system("echo import urllib.request >> updatemanagerTE.py")
+        os.system("echo os.system('title PyTunesTE Update Manager') >> updatemanagerTE.py")
+        os.system("echo print('Collecting update from github...') >> updatemanagerTE.py")
+        os.system("echo update = urllib.request.Request('https://raw.githubusercontent.com/SimLoads/PyTunesTE.py/master/PyTunesTETE.py') >> updatemanagerTE.py")
+        os.system("echo response = urllib.request.urlopen(update) >> updatemanagerTE.py")
+        os.system("echo newcode = response.read() >> updatemanagerTE.py")
+        os.system("echo master = newcode.decode() >> updatemanagerTE.py")
+        os.system("echo with open('update.pyd', 'w') as u: >> updatemanagerTE.py")
+        os.system("echo     u.write(master) >> updatemanagerTE.py")
+        os.system("echo     u.close >> updatemanagerTE.py")
+        os.system("echo print('Updating...') >> updatemanagerTE.py")
+        os.system("echo time.sleep(2) >> updatemanagerTE.py")
+        os.system("echo os.remove('PyTunesTE.py') >> updatemanagerTE.py")
+        os.system("echo with open('update.pyd', 'r') as u: >> updatemanagerTE.py")
+        os.system("echo    with open('PyTunesTE.py', 'w', encoding='utf-8', newline='') as p: >> updatemanagerTE.py")
+        os.system("echo        p.write(master) >> updatemanagerTE.py")
+        os.system("echo        p.close() >> updatemanagerTE.py")
+        os.system("echo        u.close() >> updatemanagerTE.py")
+        os.system("echo        os.remove('update.pyd') >> updatemanagerTE.py")
+        os.system("echo print('Updated! Now restarting...') >> updatemanagerTE.py")
+        os.system("echo time.sleep(2) >> updatemanagerTE.py")
+        os.system("echo os.startfile('PyTunesTE.py') >> updatemanagerTE.py")
+        os.system("echo exit() >> updatemanagerTE.py")
+        os.startfile("updatemanagerTE.py")
         exit()
 def devoptions():
     isdevon = str("a")
@@ -1045,7 +1045,7 @@ def devoptions():
         print("Restarting...")
         os.system("pause")
         os.chdir('..')
-        os.startfile("PyTunes.py")
+        os.startfile("PyTunesTE.py")
         exit()
     if devop == ("9"):
         if os.path.exists ("C:\Python34\Lib\site-packages\pygame"):
@@ -1074,7 +1074,7 @@ def errorsim():
             time.sleep(2)
             f.close()
             os.chdir('..')
-            os.startfile("PyTunes.py")
+            os.startfile("PyTunesTE.py")
             exit()
         else:
             devoptions()
@@ -1086,7 +1086,7 @@ def errorsim():
             print("Simulating...")
             time.sleep(2)
             os.chdir('..')
-            os.startfile("PyTunes.py")
+            os.startfile("PyTunesTE.py")
             exit()
     if errorin == ("9"):
         devoptions()
@@ -1107,7 +1107,7 @@ def delacc():
         print("Restarting...")
         time.sleep(2)
         os.chdir('..')
-        os.startfile("PyTunes.py")
+        os.startfile("PyTunesTE.py")
         exit()
     else:
         print("Abort.")
@@ -1188,7 +1188,7 @@ def pyfail():
     helpstart = str("Type 'end' to close program, or 'cmd' to enter a standard terminal.")
     pyfaildir = os.getcwd()
     print(helpstart)
-    devinpy = input("PyTunes Dev Console> ")
+    devinpy = input("PyTunesTE Dev Console> ")
     if devinpy == ("help"):
         print(helpstart)
         pyfail()
@@ -1209,7 +1209,7 @@ def pyfail():
             print("Navigating...")
             (devinpy)()
         except:
-            print("'" + devinpy + "' is not recognized as a PyTunes commnad, use 'cmd' to enter normal terminal")
+            print("'" + devinpy + "' is not recognized as a PyTunesTE commnad, use 'cmd' to enter normal terminal")
             pyfail()
 def pyfailcm():
     pyfaildir = os.getcwd()
@@ -1266,13 +1266,13 @@ def preboot():
                             os.remove("userps2.pyd")
                             print("0_0")
                             print("")
-                            print("PyTunes ran into a problem and had to restart.")
+                            print("PyTunesTE ran into a problem and had to restart.")
                             print("If you contact the developer, please quote error code S2PDxE")
                             print("Your password has been changed to the one you entered.")
                             print("Please press any key to restart.")
                             os.system("pause >nul")
                             os.chdir('..')
-                            os.startfile("PyTunes.py")
+                            os.startfile("PyTunesTE.py")
                             exit()
             else:
                 menu2()
@@ -1323,13 +1323,13 @@ def preboot():
             print("Hi user!")
             print("We have detected you don't have pygame installed on your system.")
             print("Pygame is crucial for this program to function as intended.")
-            print("You can continue to use PyTunes without it, however trying to play music or logging out WILL cause the program to crash.")
+            print("You can continue to use PyTunesTE without it, however trying to play music or logging out WILL cause the program to crash.")
             print("")
-            print("If you want to close PyTunes and install Pygame, press '1' followed by 'Enter'.")
+            print("If you want to close PyTunesTE and install Pygame, press '1' followed by 'Enter'.")
             print("")
             print("If you belive this is an error, or would like to use the program anyway, press '2' followed by 'Enter'.")
             print("")
-            print("If you want details on why PyTunes needs Pygame and how to install Pygame, press '3' followed by 'Enter'.")
+            print("If you want details on why PyTunesTE needs Pygame and how to install Pygame, press '3' followed by 'Enter'.")
             mench = input("")
             if mench == ("1"):
                 exit()
@@ -1366,7 +1366,7 @@ def preboot():
                 os.system("pause")
                 print("The program will now restart.")
                 os.system("pause")
-                os.startfile("PyTunes.py")
+                os.startfile("PyTunesTE.py")
                 exit()
             if mench == ("4"):
                 pyfail()
