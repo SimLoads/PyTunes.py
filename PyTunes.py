@@ -1,4 +1,4 @@
-### Pytunes Version 1.1.0.8 ###
+### Pytunes Version 1.1.1.0 ###
 # Hi user! Welcome to PyTunes! This is a fully standalone media player
 # coded entirely in Python3. Only works in windows for now, I'm working on
 # a linux edition. Hope you enjoy using it!
@@ -104,6 +104,13 @@
 # - Added a record of every song played in the session, in the songs menu
 # - Bigly things planned :)
 #####
+# Changelog 09/02/18 - Ver 1.1.1.0 R1
+# - Hello! That big update is still on its way, I don't have a huge amount of free time though
+#   so it'll be a while before it's out.
+# - So apparently it was my fault that PyGame kept failing to install, the directory I specified
+#   only seems to work for me and like no one else so I've patched that up!
+# - Added some other useless dev stuff nobody will look at 
+# - Removed Herobrine
 #
 #
 ####################### Total modules: 13
@@ -121,6 +128,7 @@ import urllib.request #    | Function removed due to pygame being
 import pickle         #    | A dumbass and not working with the queue funtion.
 import threading      # ---
 import codecs         #
+print("Import OK!")   #
 #################################################################
 
 #################################################################
@@ -1345,6 +1353,20 @@ def pyfail():
     elif devinpy == ("start"):
         print("Launching...")
         time.sleep(1)
+        global todaysongs
+        todaysongs = []
+        global currentlyplaying
+        currentlyplaying = ("Nothing")
+        if os.path.exists("Songs"):
+            os.chdir("Songs")
+        menu2c()
+    elif devinpy == ("install"):
+        print("Attempting to install PyGame...")
+        os.system("pip install pygame")
+        pyfail() 
+    elif devinpy == ("starte"):
+        print("Launching into error check...")
+        time.sleep(1)
         usercheck()
     else:
         try:
@@ -1422,50 +1444,13 @@ def preboot():
             print("[OK] Error skip disabled")
             usercheck()
     else:
-        if os.path.exists ("C:\Python34\Lib\site-packages\pygame"):
-            global pygame
+        try:
             import pygame
-            isquick = os.getcwd()
-            if isquick == ("C:\WINDOWS\System32"):
-                print("Hi user! Please don't run this program from Quick Access.")
-                print("Place it in it's own folder to run correctly.")
-                print("Type [y] to continue anyway (crash is very likely), or [n] to shutdown.")
-                isquickin = input("")
-                if isquickin == ("n"):
-                    exit()
-                else:
-                    pygame.mixer.init()
-                    if os.path.exists("StartSnd.ogg"):
-                        pygame.mixer.music.load("StartSnd.ogg")
-                        pygame.mixer.music.play()
-                    os.mkdir("Songs")
-                    print("Directory Created")
-                    print("Performing first time setup...")
-                    if os.path.exists("err.ogg"):
-                        shutil.copy2('err.ogg', 'Songs')
-                    os.chdir("Songs")
-                    dr = os.getcwd()
-                    print("Current Dir... " + dr + " [THIS SHOULD BE THE DIRECTORY YOUR SONGS ARE IN]")
-                    usercheck()
-            else:
-                pygame.mixer.init()
-                if os.path.exists("StartSnd.ogg"):
-                    pygame.mixer.music.load("StartSnd.ogg")
-                    pygame.mixer.music.play()
-                os.mkdir("Songs")
-                print("Directory Created")
-                print("Performing first time setup...")
-                if os.path.exists("err.ogg"):
-                    shutil.copy2('err.ogg', 'Songs')
-                os.chdir("Songs")
-                dr = os.getcwd()
-                print("Current Dir... " + dr + " [THIS SHOULD BE THE DIRECTORY YOUR SONGS ARE IN]")
-                usercheck()
-        else:
+        except ImportError:
             print("Hi user!")
             print("We have detected you don't have pygame installed on your system.")
             print("Pygame is crucial for this program to function as intended.")
-            print("You can continue to use PyTunes without it, however trying to play music or logging out WILL cause the program to crash.")
+            print("You can continue to use PyTunes without it, however, many key functions WILL cause the program to crash.")
             print("")
             print("If you want to close PyTunes and install Pygame, press '1' followed by 'Enter'.")
             print("")
@@ -1516,6 +1501,44 @@ def preboot():
                 print("Exiting...")
                 time.sleep(2)
                 exit()
+##      ##      ##
+##      ##      ##
+        isquick = os.getcwd()
+        if isquick == ("C:\WINDOWS\System32"):
+            print("Hi user! Please don't run this program from Quick Access.")
+            print("Place it in it's own folder to run correctly.")
+            print("Type [y] to continue anyway (crash is very likely), or [n] to shutdown.")
+            isquickin = input("")
+            if isquickin == ("n"):
+                exit()
+            else:
+                pygame.mixer.init()
+                if os.path.exists("StartSnd.ogg"):
+                    pygame.mixer.music.load("StartSnd.ogg")
+                    pygame.mixer.music.play()
+                os.mkdir("Songs")
+                print("Directory Created")
+                print("Performing first time setup...")
+                if os.path.exists("err.ogg"):
+                    shutil.copy2('err.ogg', 'Songs')
+                os.chdir("Songs")
+                dr = os.getcwd()
+                print("Current Dir... " + dr + " [THIS SHOULD BE THE DIRECTORY YOUR SONGS ARE IN]")
+                usercheck()
+        else:
+            pygame.mixer.init()
+            if os.path.exists("StartSnd.ogg"):
+                pygame.mixer.music.load("StartSnd.ogg")
+                pygame.mixer.music.play()
+            os.mkdir("Songs")
+            print("Directory Created")
+            print("Performing first time setup...")
+            if os.path.exists("err.ogg"):
+                shutil.copy2('err.ogg', 'Songs')
+            os.chdir("Songs")
+            dr = os.getcwd()
+            print("Current Dir... " + dr + " [THIS SHOULD BE THE DIRECTORY YOUR SONGS ARE IN]")
+            usercheck()
 #######################  P R E  B O O T  P R E P #######################
 
 ########################################################################
