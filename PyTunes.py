@@ -136,7 +136,7 @@ print("Import OK!")   #
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 1.1.0.8 Release 1 'Tonic'")
+programversion = str("PyTunes 1.1.1.0 Release 1 'Tonic'")
 global todaysongs
 todaysongs = []
 os.system("title " + programversion)
