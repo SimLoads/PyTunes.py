@@ -1,4 +1,4 @@
-### Pytunes Version 1.1.1.0 ###
+### Pytunes Version 1.1.1.2 ###
 # Hi user! Welcome to PyTunes! This is a fully standalone media player
 # coded entirely in Python3. Only works in windows for now, I'm working on
 # a linux edition. Hope you enjoy using it!
@@ -111,7 +111,13 @@
 #   only seems to work for me and like no one else so I've patched that up!
 # - Added some other useless dev stuff nobody will look at 
 # - Removed Herobrine
-#
+#####
+# Changelog 13/02/18 - Ver 1.1.1.2 R1
+# - Hi there! I should probably mention that the big update isn't actually for PyTunes.
+#   Instead, PyTunes will become part of a larger project I'm working on - PyOS.
+#   PyOS is currently in development and you can pick up the latest version on my github.
+#   Feel free to continue using PyTunes as is, but soon it will be part of a much larger thing!
+# - Also bug fixes :)
 #
 ####################### Total modules: 13
 print("Importing...") #
@@ -136,7 +142,7 @@ print("Import OK!")   #
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 1.1.1.0 Release 1 'Tonic'")
+programversion = str("PyTunes 1.1.1.2 Release 1 'Tonic'")
 global todaysongs
 todaysongs = []
 os.system("title " + programversion)
@@ -665,6 +671,11 @@ def songsli():
             os.system("pause >nul")
             os.system("@mode con cols=100 lines=34")
             songsli()
+        if truechoice < 0:
+            print("Choice too low!")
+            os.system("pause >nul")
+            os.system("@mode con cols=100 lines=34")
+            songsli()            
         else:
             print("Choice too high!")
             os.system("pause >nul")
