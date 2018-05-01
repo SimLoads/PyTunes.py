@@ -1,4 +1,4 @@
-### Pytunes Version 1.1.1.2 ###
+### Pytunes Version 1.1.1.4 ###
 # Hi user! Welcome to PyTunes! This is a fully standalone media player
 # coded entirely in Python3. Only works in windows for now, I'm working on
 # a linux edition. Hope you enjoy using it!
@@ -118,6 +118,19 @@
 #   PyOS is currently in development and you can pick up the latest version on my github.
 #   Feel free to continue using PyTunes as is, but soon it will be part of a much larger thing!
 # - Also bug fixes :)
+#####
+# Changelog 01/05/18 - Ver 1.1.1.4 R1
+# - Like a service pack for Windows XP, development has returned briefley for PyTunes.
+#   I'm basically just refining the program in preperation for development
+#   ending soong. Of course, PyOS is still in development, for my latest stuff, go check that out.
+#   However, this may well be the last update for PyTunes. Thanks all for using, but I may be back :)
+#
+#   Because I was slightly worse at coding when I wrote this, A lot of the functions in
+#   PyTunes are very clunky and kinda bodged to work. This is kind of hard to iron out
+#   Without a huge amount of re coding, so I've elected to just live with them.
+#   Of course, I am now working solely on PyOS, which is becoming much better over time.
+#   It includes a lot more features that work properly and smoothly and, If you really want,
+#   it still supports PyTunes installation. Go check it out!
 #
 ####################### Total modules: 13
 print("Importing...") #
@@ -131,7 +144,7 @@ import glob           #
 import sys            #    ¬ This one, it was used for a playlist function
 import select         #    | to play a playlist in the background. 
 import urllib.request #    | Function removed due to pygame being 
-import pickle         #    | A dumbass and not working with the queue funtion.
+import pickle         #    | A dumb thing and not working with the queue funtion.
 import threading      # ---
 import codecs         #
 print("Import OK!")   #
@@ -142,7 +155,7 @@ print("Import OK!")   #
 ####################### U S E R C H E C K #######################
 os.system("@mode con cols=130 lines=34")
 global programversion
-programversion = str("PyTunes 1.1.1.2 Release 1 'Tonic'")
+programversion = str("PyTunes 1.1.1.4 Release 1 'Tonic'")
 global todaysongs
 todaysongs = []
 os.system("title " + programversion)
@@ -371,7 +384,7 @@ def menu1():
     trueusernm = getpass.getuser()
     username = input("Welcome to PyTunes, " + trueusernm + "! We see this is your first time, so please enter your name: ")
     print("")
-    for i in range(5):
+    while True():
         userps = input("Enter a password for your account: ")
         if userps == (""):
             print("Passwords cannot be 0 characters!")
@@ -502,7 +515,6 @@ def menu2():
         with open("username.pyd", 'r') as f:
             for lineus in f:
                 pswrd = getpass.getpass("Welcome back to PyTunes, " + lineus + "! Enter your password to continue... ")
-        for loginloop in range(3):
             with open("userps.pyd", 'r') as f:
                 for lineps in f:
                     if (pswrd) == (lineps):
@@ -513,10 +525,8 @@ def menu2():
                     else:
                         time.sleep(2)
                         print("Could not verify password. Try Again...")
-                        if os.path.exists("err.ogg"):
-                            pygame.mixer.music.load("err.ogg")
-                            pygame.mixer.music.play()
-                        pswrd = getpass.getpass("Password: ")
+                        os.system("pause")
+                        menu2()
     else:
         if os.path.exists("userfvg.pyd"):
             os.remove("userfvg.pyd")
@@ -812,7 +822,7 @@ def songselector():
     dr = os.getcwd()
     rands = random.choice(os.listdir(dr))
     raco = ("0")
-    if rands.endswith('.mp3'):
+    if rands.endswith('.mp2'):
         randname = rands.replace(".mp3", "")
         print("")
         print("Now Playing " + randname + "...")
@@ -1060,9 +1070,6 @@ def settingsli():
                     userinfo()
                 else:
                     print("Incorrect Password!")
-                    if os.path.exists("err.ogg"):
-                        pygame.mixer.music.load("err.ogg")
-                        pygame.mixer.music.play()
                     os.system("pause >nul")
                     settingsli()
     if settingsch == ("2"):
@@ -1078,8 +1085,6 @@ def settingsli():
                     delacc()
                 else:
                     print("Incorrect Password!")
-                    pygame.mixer.music.load("err.ogg")
-                    pygame.mixer.music.play()
                     os.system("pause >nul")
                     settingsli()
     if settingsch == ("4"):
@@ -1231,6 +1236,8 @@ def errorsim():
             #for some reason trying to just print the user's password into a fake duplicate file causes
             #the password file to be 2 lines, so the program reads both lines as the password so
             #entering the password is impossible. Working on a fix.
+            #
+            #Update as of 1.1.1.4, cba to write a fix, just don't simulate errors. Idk why I implemented this honestly.
             print("Simulating...")
             time.sleep(2)
             f.close()
@@ -1255,7 +1262,7 @@ def errorsim():
         devoptions()
 def delacc():
     rand = random.randint(1,1001)
-    print("Please enter this number to prove you're not a robot: ", rand)
+    print("Please enter this number to prove you're not a robot: ", rand) #because deleting an account in a python program is such a big deal
     robche = int(input(""))
     if (robche) == (rand):
         print("Deleting account...")
@@ -1272,8 +1279,6 @@ def delacc():
         exit()
     else:
         print("Abort.")
-        pygame.mixer.music.load("err.ogg")
-        pygame.mixer.music.play()
         os.system("pause >nul")
         settingsli()
 def userinfo():
@@ -1512,8 +1517,8 @@ def preboot():
                 print("Exiting...")
                 time.sleep(2)
                 exit()
-##      ##      ##
-##      ##      ##
+##      ##      ## Barriers between code because this is super confusing
+##      ##      ## Have you tried navigating this code? I sure as hell haven't
         isquick = os.getcwd()
         if isquick == ("C:\WINDOWS\System32"):
             print("Hi user! Please don't run this program from Quick Access.")
