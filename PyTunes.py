@@ -822,7 +822,7 @@ def songselector():
     dr = os.getcwd()
     rands = random.choice(os.listdir(dr))
     raco = ("0")
-    if rands.endswith('.mp2'):
+    if rands.endswith('.mp3'):
         randname = rands.replace(".mp3", "")
         print("")
         print("Now Playing " + randname + "...")
